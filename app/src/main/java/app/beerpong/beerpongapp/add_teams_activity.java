@@ -12,5 +12,9 @@ public class add_teams_activity extends AppCompatActivity {
         //sdklfkldsf
     }
 
+    private void stuffDo() {
+
+    }
+
 
 }
