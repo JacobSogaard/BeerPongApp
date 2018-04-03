@@ -9,5 +9,7 @@ public class current_match_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_match_activity);
+
+        
     }
 }
