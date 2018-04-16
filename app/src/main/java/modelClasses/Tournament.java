@@ -125,7 +125,7 @@ public class Tournament implements ITournamentService  {
     @Override
     public Match getNextMatch(){
         //If round has ended
-        if (this.rounds.get(this.currentRound)[this.currentMatch + 1] == null){
+        if (this.rounds.get(this.currentRound).length == currentMatch){
             this.initNextRound();
             return this.rounds.get(this.currentRound)[this.currentMatch];
         }

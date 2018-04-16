@@ -82,10 +82,10 @@ public class current_match_activity extends AppCompatActivity {
     private void initTeamTwoBTN(Match match){
         this.setTeamTwoBTNText();
 
-        this.teamOneBTN.setOnClickListener(new View.OnClickListener() {
+        this.teamTwoBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getTournament().setCurrentMatchWinner(match.getTeams()[0]);
+                getTournament().setCurrentMatchWinner(match.getTeams()[1]);
                 nextMatch();
                 setTeamTwoBTNText();
             }

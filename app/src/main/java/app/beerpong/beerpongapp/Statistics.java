@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class Statistics extends AppCompatActivity {
 
@@ -19,13 +20,14 @@ public class Statistics extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+        ButterKnife.bind(this);
 
         loadStartedTournaments();
-        //loadCompletedTournaments();
+        loadCompletedTournaments();
     }
 
     private void loadStartedTournaments() {
-        //startedTourTV.setText("4");
+        startedTourTV.setText("4");
     }
 
     private void loadCompletedTournaments() {
