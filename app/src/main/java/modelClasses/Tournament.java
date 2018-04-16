@@ -13,4 +13,8 @@ public class Tournament {
     public boolean addTeam(Team t) {
         return allTeams.add(t);
     }
+
+    public ArrayList<Match> getMatches() {
+        return matches;
+    }
 }
