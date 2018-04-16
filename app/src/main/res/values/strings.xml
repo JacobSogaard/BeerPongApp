@@ -2,5 +2,10 @@
     <string name="app_name">BeerPongApp</string>
     <string name="hint">hint</string>
     <string name="versus">VS</string>
-    <string name="match_screen_title">%1$s</string>
+    <string name="match_screen_title">Match %1$s in %2$s</string>
+    <string name="roundofsixteen">round of 16</string>
+    <string name="quarterfinals">quarterfinals</string>
+    <string name="semifinals">semifinals</string>
+    <string name="finals">final</string>
+    <string name="unknown">unknown</string>
 </resources>

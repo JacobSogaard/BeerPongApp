@@ -10,13 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".add_teams_activity">
+
+        </activity>
+        <activity android:name=".current_match_activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".current_match_activity"></activity>
+
+
+
     </application>
 
 </manifest>
