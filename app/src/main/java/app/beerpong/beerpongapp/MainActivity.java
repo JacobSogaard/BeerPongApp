@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sub = (Button) findViewById(R.id.sub);
-        beer = (ImageView) findViewById(R.id.ballon);
+        beer = (ImageView) findViewById(R.id.BeerLogo);
 
         fromBottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
         fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
