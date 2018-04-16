@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minHeight="28dp"
+    android:background="@drawable/bg"
     tools:context=".add_teams_activity">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="443dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,21 +23,30 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.design.widget.TextInputLayout
+            style="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="70dp"
+            android:textColorHint="@android:color/white"
+            android:theme="@android:color/white">
+
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/teamNameTin"
+                style="@android:color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Team Name" />
+                android:layout_height="50dp"
+                android:hint="Team Name"
+                android:textColor="@android:color/white"
+                android:textColorHighlight="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textColorLink="@android:color/white" />
 
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/addTeamBTN"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:text="Add Team" />
 
         <ListView

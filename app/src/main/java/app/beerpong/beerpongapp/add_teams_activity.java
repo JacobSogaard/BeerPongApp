@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -120,7 +121,7 @@ public class add_teams_activity extends AppCompatActivity {
      */
     private void openRemoveTeamAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(teamsLView.getContext());
-        builder.setMessage("Remove This Team?");
+        builder.setMessage("Remove This Team:\n\t\t" + teamToRemove.getName() + "?");
         builder.setCancelable(true);
 
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -146,8 +147,9 @@ public class add_teams_activity extends AppCompatActivity {
 
     private void setStartBTN() {
         this.startBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                
+                startActivity(new Intent(add_teams_activity.this,current_match_activity.class));
             }
         });
     }
