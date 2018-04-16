@@ -2,6 +2,7 @@ package app.beerpong.beerpongapp;
 
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 import modelClasses.Player;
 import modelClasses.Tournament;
 import modelClasses.Team;
+import modelClasses.TournamentViewModel;
 
 public class add_teams_activity extends AppCompatActivity {
 
@@ -58,7 +60,7 @@ public class add_teams_activity extends AppCompatActivity {
         this.setAddTeamBTNStuff();
         this.setStartBTN();
 
-        this.tournament = new Tournament();
+        this.tournament = ViewModelProviders.of(this).get(TournamentViewModel.class).getTournament().getValue();
         teamAdapter = new ArrayAdapter<Team>(getApplicationContext(), android.R.layout.simple_list_item_1, tournament.getAllTeams());
         teamsLView.setAdapter(teamAdapter);
         setListViewListener();
