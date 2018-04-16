@@ -27,7 +27,21 @@ public class Tournament implements ITournamentService  {
 
     @Override
     public boolean addTeam(Team t) {
-        return allTeams.add(t);
+        for (Team team : this.allTeams) {
+            if (team.equals(t))
+                return false;
+        }
+
+        this.allTeams.add(t);
+        return true;
+    }
+
+    public void removeTeam(Team t) {
+        allTeams.remove(t);
+    }
+
+    public ArrayList<Team> getAllTeams() {
+        return allTeams;
     }
 
     private void initTournament(){
