@@ -27,4 +27,8 @@ public class Tournament {
     public ArrayList<Team> getAllTeams() {
         return allTeams;
     }
+
+    public ArrayList<Match> getMatches() {
+        return matches;
+    }
 }
