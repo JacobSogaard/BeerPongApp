@@ -9,6 +9,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import butterknife.BindView;
+
 public class MainActivity extends AppCompatActivity {
 
     Button sub;
@@ -39,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this,add_teams_activity.class));
             }
         });
-
-
 
 
     }
