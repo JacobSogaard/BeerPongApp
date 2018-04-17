@@ -1,6 +1,8 @@
 package modelClasses;
 
-public class Match {
+import java.io.Serializable;
+
+public class Match implements Serializable {
     private Team[] teams;
     private Team winner;
 

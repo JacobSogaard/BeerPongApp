@@ -3,21 +3,22 @@ package modelClasses;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Tournament implements ITournamentService  {
+public class Tournament implements ITournamentService, Serializable {
     private ArrayList<Team> allTeams;
     private ArrayList<Match> matches;
     private double numberOfRounds;
-    private Map<Double, Match[]> rounds;
+    private Map<Double, ArrayList<Match>> rounds;
     private int numberOfTeams;
     private int currentMatch;
     private double currentRound;
-    private boolean oneTeamMatch;
+    private boolean oneTeamMatch, tournamentHasEnded;
 
 
     public Tournament() {
@@ -36,6 +37,10 @@ public class Tournament implements ITournamentService  {
         return true;
     }
 
+    public void addTeams(ArrayList<Team> teams){
+        this.allTeams = teams;
+    }
+
     public void removeTeam(Team t) {
         allTeams.remove(t);
     }
@@ -51,12 +56,11 @@ public class Tournament implements ITournamentService  {
         this.numberOfTeams = this.allTeams.size();
         this.numberOfRounds = Math.floor(Math.log(this.numberOfTeams - 1) / Math.log(2));
 
-        double maxTeams = 2;
-        for(double i = numberOfRounds; i >= 1; i--){
-
-            Match[] matchList = new Match[(int) (maxTeams/2)];
+        for(double i = numberOfRounds; i >= 0; i--){
+            ArrayList<Match> matchList = new ArrayList();
             this.rounds.put(i, matchList);
-            maxTeams = Math.floor(Math.pow(maxTeams, 2));
+
+
         }
 
 
@@ -77,14 +81,14 @@ public class Tournament implements ITournamentService  {
                 && this.numberOfTeams != 8 && this.numberOfTeams != 16) {
             //checks if matches has 1 match with only one team
             if (this.matches.get(this.matches.size() - 1).getTeams().length == 1){
-                this.rounds.get(roundTwo)[0] = this.matches.get(this.matches.size() - 1);
+                this.rounds.get(roundTwo).add(this.matches.get(this.matches.size() - 1));
                 this.matches.remove(this.matches.size() - 1);
                 this.oneTeamMatch = true;
                 i = 1;
             }
             //iterates through and adds all matches in second round
-            for (i = 0; i <= this.rounds.get(roundTwo).length - 1; i++){
-                this.rounds.get(roundTwo)[i] = this.matches.get(i);
+            for (i = 0; i <= this.rounds.get(roundTwo).size() - 1; i++){
+                this.rounds.get(roundTwo).add(this.matches.get(i));
                 this.matches.remove(i);
             }
         }
@@ -93,17 +97,16 @@ public class Tournament implements ITournamentService  {
     private void initFirstRound(){
         double roundOne = numberOfRounds - (numberOfRounds - 1);
         this.matches.trimToSize();
+        this.rounds.put(roundOne, matches);
 
-        for(int i = 0; i <= this.matches.size() - 1; i++){
-            this.rounds.get(roundOne)[i] = this.matches.get(i);
-        }
+
     }
 
     @Override
     public boolean start(){
         this.initTournament();
         this.currentMatch = 0;
-        this.currentRound = this.numberOfRounds;
+        this.currentRound = 1;
         return true;
     }
 
@@ -114,7 +117,7 @@ public class Tournament implements ITournamentService  {
      */
     @Override
     public void setWinner(Team winner){
-        this.rounds.get(this.currentRound)[this.currentMatch].setWinner(winner);
+        this.rounds.get(this.currentRound).get(this.currentMatch).setWinner(winner);
     }
 
     /**
@@ -124,33 +127,44 @@ public class Tournament implements ITournamentService  {
      */
     @Override
     public Match getNextMatch(){
+
+        if(this.currentRound == this.numberOfRounds){
+            this.tournamentHasEnded = true;
+            return this.getCurrentMatch();
+        }
         //If round has ended
-        if (this.rounds.get(this.currentRound).length == currentMatch){
+        if (this.rounds.get(this.currentRound).size() - 1 == currentMatch){
+
             this.initNextRound();
-            return this.rounds.get(this.currentRound)[this.currentMatch];
+            return this.rounds.get(this.currentRound).get(this.currentMatch);
         }
 
         //Next match
         this.currentMatch++;
-        return this.rounds.get(this.currentRound)[this.currentMatch];
+        return this.getCurrentMatch();
     }
 
     public Match getCurrentMatch(){
-        return this.rounds.get(this.currentRound)[this.currentMatch];
+
+        return this.rounds.get(this.currentRound).get(this.currentMatch);
     }
 
     public void setCurrentMatchWinner(Team winner){
         this.getCurrentMatch().setWinner(winner);
     }
 
+    public boolean getTournamentHasEnded(){
+        return this.tournamentHasEnded;
+    }
+
     private void initMatches(){
         Match match;
         for(int i = 0; i <= this.allTeams.size() - 1; i += 2) {
             try {
-                Log.d("init 2 teams match", this.allTeams.get(i).getName() + " - " + this.allTeams.get(i + 1).getName());
+
                 match = new Match(this.allTeams.get(i), this.allTeams.get(i + 1));
             } catch (IndexOutOfBoundsException n){
-                Log.d("Init 1 team match", this.allTeams.get(i).getName());
+
                 match = new Match(this.allTeams.get(i));
             }
 
@@ -159,22 +173,25 @@ public class Tournament implements ITournamentService  {
     }
 
     private void initNextRound(){
+
         List<Team> teams = new ArrayList<>();
         for(Match m : this.rounds.get(this.currentRound)){
             teams.add(m.getWinner());
+            Log.d("Init next round", m.getWinner().getName());
         }
 
         this.currentRound++;
         Collections.shuffle(teams);
-        for (int i = 0; i <= teams.size(); i += 2){
-            this.rounds.get(this.currentRound)[i] = new Match(teams.get(i), teams.get(i + 1));
+        for (int i = 0; i <= teams.size() - 1; i += 2){
+            Log.d("Current round", Double.toString(currentRound));
+            this.rounds.get(this.currentRound).add(new Match(teams.get(i), teams.get(i + 1)));
         }
         this.currentMatch = 0;
     }
 
     public Match getFirstMatch(){
-        Log.d("First match", Double.toString(numberOfRounds - (numberOfRounds - 1.0)));
-        return this.rounds.get(numberOfRounds - (numberOfRounds - 1.0))[0];
+
+        return this.rounds.get(numberOfRounds - (numberOfRounds - 1.0)).get(0);
     }
 
     @Override

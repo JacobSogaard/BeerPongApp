@@ -2,6 +2,7 @@ package app.beerpong.beerpongapp;
 
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,6 +47,7 @@ public class add_teams_activity extends AppCompatActivity {
 
 
     //Class attributes
+    private TournamentViewModel tournamentView;
     private Tournament tournament;
     private ArrayAdapter<Team> teamAdapter;
     private boolean removeTeam = false;
@@ -60,7 +62,13 @@ public class add_teams_activity extends AppCompatActivity {
         this.setAddTeamBTNStuff();
         this.setStartBTN();
 
-        this.tournament = ViewModelProviders.of(this).get(TournamentViewModel.class).getTournament().getValue();
+        this.tournamentView = ViewModelProviders.of(this).get(TournamentViewModel.class);
+
+        this.tournamentView.getTournament().observe(this, Tournament -> {
+
+        });
+
+        this.tournament = tournamentView.getTournament().getValue();
         teamAdapter = new ArrayAdapter<Team>(getApplicationContext(), android.R.layout.simple_list_item_1, tournament.getAllTeams());
         teamsLView.setAdapter(teamAdapter);
         setListViewListener();
@@ -151,7 +159,9 @@ public class add_teams_activity extends AppCompatActivity {
         this.startBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(add_teams_activity.this,current_match_activity.class));
+                Intent i = new Intent(add_teams_activity.this,current_match_activity.class);
+                i.putExtra("tournament", tournament);
+                startActivity(i);
             }
         });
     }

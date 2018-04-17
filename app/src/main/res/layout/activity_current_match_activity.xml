@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:minHeight="28dp"
+    android:background="@drawable/bg"
     tools:context=".current_match_activity">
 
     <LinearLayout
@@ -28,7 +30,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/match_screen_title" />
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:text="@string/match_screen_title"
+                android:textSize="24sp"
+                tools:textColor="@color/colorAccent" />
         </LinearLayout>
 
         <LinearLayout
@@ -41,7 +48,8 @@
                 android:id="@+id/teamOneBTN"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/vsTextView"
@@ -49,13 +57,21 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/versus" />
+                android:text="@string/versus"
+                tools:textColor="@color/colorAccent" />
 
             <Button
                 android:id="@+id/teamTwoBTN"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@color/colorPrimary" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/winnerTW"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
