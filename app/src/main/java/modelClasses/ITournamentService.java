@@ -2,9 +2,11 @@ package modelClasses;
 
 public interface ITournamentService {
     boolean addTeam(Team t);
-    boolean start();
+    void start();
     void setWinner(Team winner);
-    Match getNextMatch();
-    double getCurrentRound();
-    int getCurrentMatchIndex();
+    Match2 getNextMatch();
+    int getCurrentRound();
+    void concludeMatch(Match2 match);
+    //int getCurrentMatchIndex();
+
 }

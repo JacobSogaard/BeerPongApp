@@ -14,8 +14,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import modelClasses.ITournamentService;
 import modelClasses.Match;
+import modelClasses.Match2;
 import modelClasses.Team;
-import modelClasses.Tournament;
+//import modelClasses.Tournament;
+import modelClasses.Tournament2;
 import modelClasses.TournamentViewModel;
 
 public class current_match_activity extends AppCompatActivity {
@@ -34,8 +36,8 @@ public class current_match_activity extends AppCompatActivity {
 
     private String currentMatch, roundText;
     private double currentRound;
-    private TournamentViewModel tournament;
-    private Match match;
+    private Tournament2 tournament;
+    private Match2 match;
 
 
     @Override
@@ -45,49 +47,54 @@ public class current_match_activity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        Tournament t = (Tournament) intent.getSerializableExtra("tournament");
 
-        this.tournament = ViewModelProviders.of(this).get(TournamentViewModel.class);
-        this.getTournament().addTeams(t.getAllTeams());
+        if (intent != null) {
+            this.tournament = (Tournament2) intent.getSerializableExtra("tournament");
+        }
 
-        this.initTestTur();
-        this.tournament.getTournament().observe(this, Tournament -> {
-            Match m = this.tournament.getTournament().getValue().getCurrentMatch();
-            teamOneBTN.setText(m.getTeams()[0].getName());
-            teamTwoBTN.setText(m.getTeams()[1].getName());
-            if(tournament.getTournament().getValue().getTournamentHasEnded()){
+
+        //this.getTournament().addTeams(t.getAllTeams());
+        //tournament = ViewModelProviders.of(add_teams_activity.class).get(Tournament2.class);
+
+
+
+        //this.initTestTur();
+
+            this.getTournament().start();
+            this.match = this.getTournament().getNextMatch();
+            teamOneBTN.setText(match.getTeam1().getName());
+            teamTwoBTN.setText(match.getTeam2().getName());
+            if(!this.getTournament().hasRound(this.getTournament().getCurrentRound())){
                 this.winnerTW.setText(R.string.winner);
             }
             this.setTitle();
-        });
 
-        match = this.getTournament().getFirstMatch();
-        this.initTeamOneBTN(match);
-        this.initTeamTwoBTN(match);
+        this.initTeamOneBTN();
+        this.initTeamTwoBTN();
         
     }
 
-    private void initTeamOneBTN(Match match){
+    private void initTeamOneBTN(){
         this.setTeamOneBTNText();
 
 
         this.teamOneBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextMatch(0);
+                nextMatch(match.getTeam1());
                 setTeamOneBTNText();
                 setTeamTwoBTNText();
             }
         });
     }
 
-    private void initTeamTwoBTN(Match match){
+    private void initTeamTwoBTN(){
         this.setTeamTwoBTNText();
 
         this.teamTwoBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextMatch(1);
+                nextMatch(match.getTeam2());
                 setTeamTwoBTNText();
                 setTeamOneBTNText();
             }
@@ -95,12 +102,12 @@ public class current_match_activity extends AppCompatActivity {
     }
 
     private void setTeamOneBTNText(){
-        String buttonTeam = match.getTeams()[0].getName();
+        String buttonTeam = match.getTeam1().getName();
         this.teamOneBTN.setText(buttonTeam);
     }
 
     private void setTeamTwoBTNText(){
-        String buttonTeam = match.getTeams()[1].getName();
+        String buttonTeam = match.getTeam2().getName();
         this.teamTwoBTN.setText(buttonTeam);
     }
 
@@ -118,20 +125,20 @@ public class current_match_activity extends AppCompatActivity {
 
 
 
-        this.tournament.getTournament().getValue().addTeam(t2);
-        this.tournament.getTournament().getValue().addTeam(t3);
-        this.tournament.getTournament().getValue().addTeam(t4);
+        this.tournament.addTeam(t2);
+        this.tournament.addTeam(t3);
+        this.tournament.addTeam(t4);
 
 
 
-        this.tournament.getTournament().getValue().start();
+        this.tournament.start();
     }
 
 
 
 
     private void setTitle(){
-        this.updateRoundAndMatch((int) this.tournament.getTournament().getValue().getCurrentRound(), this.tournament.getTournament().getValue().getCurrentMatchIndex());
+        this.updateRoundAndMatch(this.getTournament().getCurrentRound(), this.getTournament().getConcludedMatches().size() + 1);
         if (this.currentRound == 0){
             this.roundText = getString(R.string.roundofsixteen);
         } else if (this.currentRound == 1) {
@@ -150,15 +157,10 @@ public class current_match_activity extends AppCompatActivity {
 
     }
 
-    private void nextMatch(int winner){
-        if (getTournament().getTournamentHasEnded()){
-            this.winnerTW.setText(R.string.winner);
-        } else {
-            getTournament().getCurrentMatch().setWinner(this.match.getTeams()[winner]);
-            match = getTournament().getNextMatch();
-            this.updateRoundAndMatch((int) getTournament().getCurrentRound(), getTournament().getCurrentMatchIndex());
-        }
-
+    private void nextMatch(Team winner){
+        match.setMatchWinner(winner, this.getTournament().getCurrentRound());
+        this.getTournament().concludeMatch(match);
+        this.match = this.getTournament().getNextMatch();
         this.setTitle();
     }
 
@@ -176,7 +178,7 @@ public class current_match_activity extends AppCompatActivity {
         this.currentMatch = Integer.toString(currentMatch + 1);
     }
 
-    private Tournament getTournament(){
-        return this.tournament.getTournament().getValue();
+    private Tournament2 getTournament(){
+        return this.tournament;
     }
 }

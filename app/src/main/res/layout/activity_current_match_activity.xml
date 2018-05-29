@@ -58,7 +58,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/versus"
-                tools:textColor="@color/colorAccent" />
+                android:textColor="@android:color/white"
+                />
 
             <Button
                 android:id="@+id/teamTwoBTN"
@@ -72,6 +73,8 @@
             android:id="@+id/winnerTW"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

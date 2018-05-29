@@ -4,10 +4,16 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-public class TournamentViewModel extends ViewModel {
-    private MutableLiveData<Tournament> tournament;
+/**
+ * View model er ikke lavet rigtigt, tjek dokumentationen
+ *
+ */
 
-    public LiveData<Tournament> getTournament(){
+
+public class TournamentViewModel extends ViewModel {
+    private MutableLiveData<Tournament2> tournament;
+
+    public LiveData<Tournament2> getTournament(){
         if (tournament == null){
             tournament = new MutableLiveData<>();
             loadTournament();
@@ -16,6 +22,6 @@ public class TournamentViewModel extends ViewModel {
     }
 
     private void loadTournament(){
-        tournament.setValue(new Tournament());
+        tournament.setValue(new Tournament2());
     }
 }

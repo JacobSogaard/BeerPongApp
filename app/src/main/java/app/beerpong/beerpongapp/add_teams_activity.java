@@ -26,8 +26,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import modelClasses.Player;
-import modelClasses.Tournament;
+//import modelClasses.Tournament;
 import modelClasses.Team;
+import modelClasses.Tournament2;
 import modelClasses.TournamentViewModel;
 
 public class add_teams_activity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class add_teams_activity extends AppCompatActivity {
 
     //Class attributes
     private TournamentViewModel tournamentView;
-    private Tournament tournament;
+    private Tournament2 tournament;
     private ArrayAdapter<Team> teamAdapter;
     private boolean removeTeam = false;
     private Team teamToRemove = null;
@@ -62,14 +63,9 @@ public class add_teams_activity extends AppCompatActivity {
         this.setAddTeamBTNStuff();
         this.setStartBTN();
 
-        this.tournamentView = ViewModelProviders.of(this).get(TournamentViewModel.class);
+        this.tournament = ViewModelProviders.of(this).get(Tournament2.class);
 
-        this.tournamentView.getTournament().observe(this, Tournament -> {
-
-        });
-
-        this.tournament = tournamentView.getTournament().getValue();
-        teamAdapter = new ArrayAdapter<Team>(getApplicationContext(), android.R.layout.simple_list_item_1, tournament.getAllTeams());
+        teamAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tournament.getAllTeams());
         teamsLView.setAdapter(teamAdapter);
         setListViewListener();
     }
@@ -106,6 +102,7 @@ public class add_teams_activity extends AppCompatActivity {
     private void handleListStuff(Team team) {
         teamAdapter.notifyDataSetChanged();
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        //Possible null pointer
         imm.hideSoftInputFromWindow(teamNameTin.getWindowToken(), 0);
         teamNameTin.setFocusable(false);
         teamNameTin.setFocusableInTouchMode(true);
@@ -137,7 +134,7 @@ public class add_teams_activity extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                tournament.removeTeam(teamToRemove);
+                tournament.removeTeam(teamToRemove.getName());
                 teamAdapter.notifyDataSetChanged();
                 dialog.cancel();
             }
