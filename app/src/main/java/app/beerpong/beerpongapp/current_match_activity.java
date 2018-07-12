@@ -78,10 +78,8 @@ public class current_match_activity extends AppCompatActivity {
         this.setTeamOneBTNText();
 
 
-        this.teamOneBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextMatch(match.getTeam1());
+        this.teamOneBTN.setOnClickListener(v -> {
+            if (nextMatch(match.getTeam1())) {
                 setTeamOneBTNText();
                 setTeamTwoBTNText();
             }
@@ -91,10 +89,8 @@ public class current_match_activity extends AppCompatActivity {
     private void initTeamTwoBTN(){
         this.setTeamTwoBTNText();
 
-        this.teamTwoBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextMatch(match.getTeam2());
+        this.teamTwoBTN.setOnClickListener(v -> {
+            if (nextMatch(match.getTeam2())) {
                 setTeamTwoBTNText();
                 setTeamOneBTNText();
             }
@@ -157,11 +153,21 @@ public class current_match_activity extends AppCompatActivity {
 
     }
 
-    private void nextMatch(Team winner){
+    private boolean nextMatch(Team winner){
         match.setMatchWinner(winner, this.getTournament().getCurrentRound());
         this.getTournament().concludeMatch(match);
-        this.match = this.getTournament().getNextMatch();
+        match = this.getTournament().getNextMatch();
+
+
+        if (match == null){
+            Intent i = new Intent(current_match_activity.this,end_tournament_activity.class);
+
+            i.putExtra("winner", winner.getName());
+            startActivity(i);
+            return false;
+        }
         this.setTitle();
+        return true;
     }
 
 

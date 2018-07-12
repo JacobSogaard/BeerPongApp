@@ -54,7 +54,8 @@
         <ListView
             android:id="@+id/teamsLView"
             android:layout_width="wrap_content"
-            android:layout_height="280dp">
+            android:layout_height="280dp"
+            android:text="@color/colorPrimaryDark">
 
         </ListView>
 
