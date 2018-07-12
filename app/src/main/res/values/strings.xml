@@ -13,4 +13,5 @@
     <string name="team_name">Team Name</string>
     <string name="start">Start</string>
     <string name="win_title">Tournament Winner</string>
+    <string name="new_tournament">Start new tournament</string>
 </resources>
