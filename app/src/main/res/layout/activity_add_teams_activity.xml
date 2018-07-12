@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="443dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -28,6 +28,7 @@
             style="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:gravity="center"
             android:textColorHint="@android:color/white"
             android:theme="@android:color/white">
 
@@ -37,6 +38,7 @@
                 style="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:gravity="center"
                 android:hint="@string/team_name"
                 android:textColor="@android:color/white"
                 android:textColorHighlight="@android:color/white"
@@ -53,15 +55,14 @@
 
         <ListView
             android:id="@+id/teamsLView"
-            android:layout_width="wrap_content"
-            android:layout_height="280dp"
-            android:text="@color/colorPrimaryDark">
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent">
 
         </ListView>
 
         <Button
             android:id="@+id/startBTN"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/start" />
 

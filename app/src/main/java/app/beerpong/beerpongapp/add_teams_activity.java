@@ -65,7 +65,7 @@ public class add_teams_activity extends AppCompatActivity {
 
         this.tournament = ViewModelProviders.of(this).get(Tournament2.class);
 
-        teamAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tournament.getAllTeams());
+        teamAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.list_project_text_color, R.id.list_content, tournament.getAllTeams());
         teamsLView.setAdapter(teamAdapter);
         setListViewListener();
     }
