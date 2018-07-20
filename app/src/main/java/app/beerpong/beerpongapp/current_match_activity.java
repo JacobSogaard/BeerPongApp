@@ -161,7 +161,6 @@ public class current_match_activity extends AppCompatActivity {
 
         if (match == null){
             Intent i = new Intent(current_match_activity.this,end_tournament_activity.class);
-
             i.putExtra("winner", winner.getName());
             startActivity(i);
             return false;

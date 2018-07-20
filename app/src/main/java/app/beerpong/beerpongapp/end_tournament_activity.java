@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import databasemanager.DBHandler;
+import modelClasses.IDBService;
 
 public class end_tournament_activity extends AppCompatActivity {
 
@@ -33,6 +35,10 @@ public class end_tournament_activity extends AppCompatActivity {
             this.winner = i.getStringExtra("winner");
             this.winnerTW.setText(this.winner);
         }
+
+        IDBService db = new DBHandler();
+        db.addTournamentPlayed();
+
     }
 
     private void setNewTournament(){

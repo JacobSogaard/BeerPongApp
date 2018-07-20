@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -83,6 +84,7 @@ public class add_teams_activity extends AppCompatActivity {
                     else {
                         teamNameTin.getText().clear();
                         handleListStuff(team);
+                        Toast.makeText(add_teams_activity.this, "Team added", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
