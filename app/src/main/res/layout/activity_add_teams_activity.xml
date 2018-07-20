@@ -5,14 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:minHeight="28dp"
     tools:context=".add_teams_activity">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -43,7 +43,9 @@
                 android:textColor="@android:color/white"
                 android:textColorHighlight="@android:color/white"
                 android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white" />
+                android:textColorLink="@android:color/white"
+                android:inputType="text"
+                android:imeOptions="actionSend"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -55,8 +57,9 @@
 
         <ListView
             android:id="@+id/teamsLView"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
         </ListView>
 
@@ -64,7 +67,8 @@
             android:id="@+id/startBTN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/start" />
+            android:text="@string/start"
+            android:textSize="14sp" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

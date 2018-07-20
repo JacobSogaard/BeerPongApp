@@ -13,13 +13,16 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -63,32 +66,56 @@ public class add_teams_activity extends AppCompatActivity {
         ButterKnife.bind(this);
         this.setAddTeamBTNStuff();
         this.setStartBTN();
+        this.setOnEnterAddTeam();
 
         this.tournament = ViewModelProviders.of(this).get(Tournament2.class);
 
         teamAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.list_project_text_color, R.id.list_content, tournament.getAllTeams());
         teamsLView.setAdapter(teamAdapter);
         setListViewListener();
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.toggleSoftInput (InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+    }
+
+    private void setOnEnterAddTeam(){
+        teamNameTin.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    addTeam();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
     }
 
     //Adding teams to the tournament
     private void setAddTeamBTNStuff() {
         this.addTeamBTN.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Team team = handleTeamCreation(teamNameTin.getText());
-                if (team == null)
-                    teamNameTin.setError("Please Type A Name");
-                else {
-                    if (!tournament.addTeam(team))
-                        teamNameTin.setError("Name Already Taken");
-                    else {
-                        teamNameTin.getText().clear();
-                        handleListStuff(team);
-                        Toast.makeText(add_teams_activity.this, "Team added", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                addTeam();
             }
         });
+    }
+
+    private void addTeam(){
+        Team team = handleTeamCreation(teamNameTin.getText());
+        if (team == null)
+            teamNameTin.setError("Please Type A Name");
+        else {
+            if (!tournament.addTeam(team))
+                teamNameTin.setError("Name Already Taken");
+            else {
+                teamNameTin.getText().clear();
+                handleListStuff(team);
+                Toast.makeText(add_teams_activity.this, "Team added", Toast.LENGTH_SHORT).show();
+                teamNameTin.requestFocus();
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.toggleSoftInput (InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+        }
     }
 
     private Team handleTeamCreation(Editable t) {
